@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTC to IBIT Converter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="converter-container">
+        <h1>BTC vs. IBIT Price</h1>
+
+        {% if error %}
+            <div class="error-message">
+                <p>{{ error }}</p>
+            </div>
+        {% else %}
+            <div class="price-display">
+                <h2>1 BTC = ${{ "{:,.2f}".format(btc_price) }}</h2>
+                <h2>1 IBIT = ${{ "{:,.2f}".format(ibit_price) }}</h2>
+            </div>
+            <div class="summary">
+                <p>This means you could buy approximately <strong>{{ "{:,.2f}".format(btc_price / ibit_price) }}</strong> shares of IBIT for the price of one Bitcoin.</p>
+            </div>
+        {% endif %}
+
+        <form action="/" method="get">
+            <button type="submit">Refresh Prices</button>
+        </form>
+
+        <div class="footer">
+            <p>Last updated: {{ timestamp }}</p>
+        </div>
+    </div>
+</body>
+</html>
