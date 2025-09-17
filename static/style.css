@@ -1,0 +1,70 @@
+body {
+    font-family: 'Roboto Mono', monospace;
+    background-color: #f0f2f5;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.converter-container {
+    background-color: #ffffff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 90%;
+    max-width: 500px;
+}
+
+h1 {
+    color: #1a1a1a;
+    margin-bottom: 20px;
+}
+
+.price-display h2 {
+    background-color: #e9ecef;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+    font-size: 1.5em;
+    font-weight: 700;
+}
+
+.summary {
+    margin: 20px 0;
+    font-size: 1.1em;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 15px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.footer {
+    margin-top: 30px;
+    font-size: 0.9em;
+    color: #888;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #f5c6cb;
+}

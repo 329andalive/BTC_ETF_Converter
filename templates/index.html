@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTC to IBIT Converter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="converter-container">
+        <h1>Live BTC vs. IBIT Price</h1>
+
+        {% if error %}
+            <div class="error-message">
+                <p>{{ error }}</p>
+            </div>
+        {% else %}
+            <div class="price-display">
+                <h2>1 BTC = ${{ "{:,.2f}".format(btc_price) }}</h2>
+                <h2>1 IBIT = ${{ "{:,.2f}".format(ibit_price) }}</h2>
+            </div>
+            <div class="summary">
+                <p>You can buy approx. <strong>{{ "{:,.2f}".format(btc_price / ibit_price) }}</strong> shares of IBIT for one Bitcoin.</p>
+            </div>
+        {% endif %}
+        
+        <hr> <!-- A horizontal line to separate sections -->
+
+        <!-- Our New Feature Starts Here -->
+        <h2>Hypothetical Calculator</h2>
+        <form action="/" method="get" class="calculator-form">
+            <label for="hypothetical_btc">If BTC Price Were ($):</label>
+            <input type="text" name="hypothetical_btc" id="hypothetical_btc" placeholder="e.g., 75000">
+            <button type="submit">Calculate IBIT Price</button>
+        </form>
+
+        <!-- We only display this part if a calculation was made -->
+        {% if hypothetical_ibit_price %}
+        <div class="hypothetical-result">
+            <p>Then 1 IBIT share would be worth approximately: <strong>${{ "{:,.2f}".format(hypothetical_ibit_price) }}</strong></p>
+        </div>
+        {% endif %}
+        <!-- New Feature Ends Here -->
+
+        <div class="footer">
+            <p>Last updated: {{ timestamp }} | <a href="/">Refresh Live Prices</a></p>
+        </div>
+    </div>
+</body>
+</html>
