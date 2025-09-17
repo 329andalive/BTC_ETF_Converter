@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BTC to IBIT Converter</title>
+    <title>BTC vs. ETF Price Converter</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,43 +11,54 @@
 </head>
 <body>
     <div class="converter-container">
-        <h1>Live BTC vs. IBIT Price</h1>
-
-        {% if error %}
-            <div class="error-message">
-                <p>{{ error }}</p>
-            </div>
-        {% else %}
-            <div class="price-display">
-                <h2>1 BTC = ${{ "{:,.2f}".format(btc_price) }}</h2>
-                <h2>1 IBIT = ${{ "{:,.2f}".format(ibit_price) }}</h2>
-            </div>
-            <div class="summary">
-                <p>You can buy approx. <strong>{{ "{:,.2f}".format(btc_price / ibit_price) }}</strong> shares of IBIT for one Bitcoin.</p>
-            </div>
-        {% endif %}
         
-        <hr> <!-- A horizontal line to separate sections -->
+        <!-- This form will wrap our controls -->
+        <form action="/" method="get">
+            <h1>BTC vs. <select name="etf_choice" onchange="this.form.submit()">
+                {% for etf in etf_tickers %}
+                    <option value="{{ etf }}" {% if etf == selected_etf %}selected{% endif %}>
+                        {{ etf }}
+                    </option>
+                {% endfor %}
+            </select> Price
+            </h1>
 
-        <!-- Our New Feature Starts Here -->
-        <h2>Hypothetical Calculator</h2>
-        <form action="/" method="get" class="calculator-form">
-            <label for="hypothetical_btc">If BTC Price Were ($):</label>
-            <input type="text" name="hypothetical_btc" id="hypothetical_btc" placeholder="e.g., 75000">
-            <button type="submit">Calculate IBIT Price</button>
-        </form>
+            {% if error %}
+                <div class="error-message"><p>{{ error }}</p></div>
+            {% else %}
+                <div class="price-display">
+                    <h2>1 BTC = ${{ "{:,.2f}".format(btc_price) }}</h2>
+                    <!-- Display the selected ETF's price -->
+                    <h2>1 {{ selected_etf }} = ${{ "{:,.2f}".format(etf_price) }}</h2>
+                </div>
+                <div class="summary">
+                    <!-- Update the summary text -->
+                    <p>You can buy approx. <strong>{{ "{:,.2f}".format(btc_price / etf_price) }}</strong> shares of {{ selected_etf }} for one Bitcoin.</p>
+                </div>
+            {% endif %}
+            
+            <hr>
 
-        <!-- We only display this part if a calculation was made -->
-        {% if hypothetical_ibit_price %}
-        <div class="hypothetical-result">
-            <p>Then 1 IBIT share would be worth approximately: <strong>${{ "{:,.2f}".format(hypothetical_ibit_price) }}</strong></p>
-        </div>
-        {% endif %}
-        <!-- New Feature Ends Here -->
+            <h2>Hypothetical Calculator</h2>
+            <div class="calculator-form">
+                <label for="hypothetical_btc">If BTC Price Were ($):</label>
+                <!-- Important: The form now contains the dropdown, so this input is part of it -->
+                <input type="text" name="hypothetical_btc" id="hypothetical_btc" placeholder="e.g., 75000">
+                <button type="submit">Calculate</button>
+            </div>
+
+            {% if hypothetical_etf_price %}
+            <div class="hypothetical-result">
+                <!-- Use the selected ETF name here too -->
+                <p>Then 1 {{ selected_etf }} share would be worth approx: <strong>${{ "{:,.2f}".format(hypothetical_etf_price) }}</strong></p>
+            </div>
+            {% endif %}
+        </form> <!-- End of the main form -->
 
         <div class="footer">
-            <p>Last updated: {{ timestamp }} | <a href="/">Refresh Live Prices</a></p>
+            <p>Last updated: {{ timestamp }}</p>
         </div>
     </div>
 </body>
 </html>
+
