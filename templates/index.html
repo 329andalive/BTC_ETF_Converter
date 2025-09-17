@@ -11,7 +11,7 @@
 </head>
 <body>
     <div class="converter-container">
-        <h1>BTC vs. IBIT Price</h1>
+        <h1>Live BTC vs. IBIT Price</h1>
 
         {% if error %}
             <div class="error-message">
@@ -23,16 +23,30 @@
                 <h2>1 IBIT = ${{ "{:,.2f}".format(ibit_price) }}</h2>
             </div>
             <div class="summary">
-                <p>This means you could buy approximately <strong>{{ "{:,.2f}".format(btc_price / ibit_price) }}</strong> shares of IBIT for the price of one Bitcoin.</p>
+                <p>You can buy approx. <strong>{{ "{:,.2f}".format(btc_price / ibit_price) }}</strong> shares of IBIT for one Bitcoin.</p>
             </div>
         {% endif %}
+        
+        <hr> <!-- A horizontal line to separate sections -->
 
-        <form action="/" method="get">
-            <button type="submit">Refresh Prices</button>
+        <!-- Our New Feature Starts Here -->
+        <h2>Hypothetical Calculator</h2>
+        <form action="/" method="get" class="calculator-form">
+            <label for="hypothetical_btc">If BTC Price Were ($):</label>
+            <input type="text" name="hypothetical_btc" id="hypothetical_btc" placeholder="e.g., 75000">
+            <button type="submit">Calculate IBIT Price</button>
         </form>
 
+        <!-- We only display this part if a calculation was made -->
+        {% if hypothetical_ibit_price %}
+        <div class="hypothetical-result">
+            <p>Then 1 IBIT share would be worth approximately: <strong>${{ "{:,.2f}".format(hypothetical_ibit_price) }}</strong></p>
+        </div>
+        {% endif %}
+        <!-- New Feature Ends Here -->
+
         <div class="footer">
-            <p>Last updated: {{ timestamp }}</p>
+            <p>Last updated: {{ timestamp }} | <a href="/">Refresh Live Prices</a></p>
         </div>
     </div>
 </body>
